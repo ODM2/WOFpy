@@ -1,0 +1,165 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ODM2 PostgreSQL/Mysql Server &#8212; WOFpy 2.3.0+38.gcb89f71 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">WOFpy 2.3.0+38.gcb89f71 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="odm2-postgresql-mysql-server">
+<h1>ODM2 PostgreSQL/Mysql Server<a class="headerlink" href="#odm2-postgresql-mysql-server" title="Permalink to this headline">¶</a></h1>
+<p>A single service can be run from the command line.</p>
+<ol class="arabic">
+<li><p class="first">ODM2 Measurement data use case</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">runserver_odm2_measurement.py</span>
+<span class="pre">--config=odm2_config_measurement.cfg</span>
+<span class="pre">--connection=connection.file</span></code></p>
+</div></blockquote>
+</li>
+<li><p class="first">ODM2 Timeseries data use case</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">runserver_odm2_timeseries.py</span>
+<span class="pre">--config=odm2_config_timeseries.cfg</span>
+<span class="pre">--connection=connection.file</span></code></p>
+</div></blockquote>
+</li>
+</ol>
+<p>Multiple services can be run from the command line</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">runserver_multiple.py</span>
+<span class="pre">--timeseries_connection=connection.file</span>
+<span class="pre">--measurement_connection=connection.file</span></code></div></blockquote>
+<p>connection.file contains:</p>
+<p><code class="docutils literal notranslate"><span class="pre">postgresql+psycopg2://username:password/db_name</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">mysql+mysqldb://username:password/db_name</span></code></p>
+<div class="section" id="detailed-instructions">
+<h2>Detailed Instructions<a class="headerlink" href="#detailed-instructions" title="Permalink to this headline">¶</a></h2>
+<p>These examples are located in the <strong>examples/odm2</strong> folder.</p>
+<p>These examples show how to access Observations Data Model (ODM2) databases in PostgreSQL/Mysql Server.
+The example for ODM2 measurement data uses the Marchantaria Time Series ODM2 PostgreSQL database from the ODM2 github at <a class="reference external" href="https://github.com/ODM2/ODM2/tree/master/usecases/marchantariats">https://github.com/ODM2/ODM2/tree/master/usecases/marchantariats</a>.
+And the example for ODM2 timeseries uses Little Bear River Test ODM2 Mysql Database from ODM2 github at <a class="reference external" href="https://github.com/ODM2/ODM2/tree/master/usecases/littlebearriver/sampledatabases">https://github.com/ODM2/ODM2/tree/master/usecases/littlebearriver/sampledatabases</a>.</p>
+<p>Follow the steps below to run this example.</p>
+<ol class="arabic">
+<li><p class="first">Install PostgreSQL or Mysql Server based on the data use cases.</p>
+</li>
+<li><p class="first">Download ODM2 database from the ODM2 github at above URLs.</p>
+</li>
+<li><p class="first">Download the ODM2API (<a class="reference external" href="https://github.com/ODM2/ODM2PythonAPI/tree/setup">https://github.com/ODM2/ODM2PythonAPI/tree/setup</a>). At <strong>src</strong> folder, enter this command: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>.</p>
+</li>
+<li><p class="first">Determine the database connection string. <strong>odm2_connection_string</strong> set to a SQLAlchemy-compatible
+database connection string for the ODM2 database, e.g.,
+‘postgresql+psycopg2://username:passowkr&#64;hostname:port/db_name’ or, ‘mysql+mysqldb://username:password/db_name’</p>
+</li>
+<li><p class="first">In the <strong>examples/flask/odm2/{measurement|timeseries}</strong> folder, edit the value of the <strong>openPort</strong>
+variable in <strong>runserver_multiple.py|runserver_odm2_measurement.py|runserver_odm2_timeseries.py</strong> to match an open port on your computer,
+if necessary.  Then save and close the file.</p>
+</li>
+<li><p class="first">In case of ODM2 measurement data use case, open a command window in the <strong>examples/flask/odm2/measurement</strong> folder and enter:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">runserver_odm2_measurement.py</span>
+<span class="pre">--config=odm2_config_measurement.cfg</span>
+<span class="pre">--connection=connection.file</span></code></p>
+</div></blockquote>
+</li>
+<li><p class="first">In case of ODM2 timeseries data use case, open a command window in the <strong>examples/flask/odm2/timeseries</strong> folder and enter:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">runserver_odm2_timeseries.py</span>
+<span class="pre">--config=odm2_config_timeseries.cfg</span>
+<span class="pre">--connection=connection.file</span></code></p>
+</div></blockquote>
+</li>
+<li><p class="first">In case of multiple services, open a command window in the <strong>examples/flask/odm2/</strong> folder and enter:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">runserver_multiple.py</span>
+<span class="pre">--timeseries_connection=mysql+mysqldb://username:password/db_name</span>
+<span class="pre">--measurement_connection=connection.file</span></code></p>
+</div></blockquote>
+</li>
+<li><p class="first">In your command window you should see a message indicating that the service
+is running along with instructions for accessing the service.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ODM2 PostgreSQL/Mysql Server</a><ul>
+<li><a class="reference internal" href="#detailed-instructions">Detailed Instructions</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ODM2Services.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">WOFpy 2.3.0+38.gcb89f71 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011-2015, Texas Water Development Board, Espey Consultants, Inc., University of Texas at Austin, Regents of University of California.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.3.
+    </div>
+  </body>
+</html>
