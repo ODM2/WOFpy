@@ -1,0 +1,133 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ODM1 SQL Server &#8212; WOFpy 2.3.0+38.gcb89f71 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">WOFpy 2.3.0+38.gcb89f71 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="odm1-sql-server">
+<h1>ODM1 SQL Server<a class="headerlink" href="#odm1-sql-server" title="Permalink to this headline">¶</a></h1>
+<p>A single service can be run from the command line.</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">examples/flask/odm_1_1/runserver_odm_1_1.py</span>
+<span class="pre">--config=lbr_config.cfg</span>
+<span class="pre">--connection=connection.file</span></code></div></blockquote>
+<p>connection.file contains:</p>
+<p><code class="docutils literal notranslate"><span class="pre">postgresql+psycopg2://username:password/db_name</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">mysql+mysqldb://username:password/db_name</span></code></p>
+<div class="section" id="detailed-instructions">
+<h2>Detailed Instructions<a class="headerlink" href="#detailed-instructions" title="Permalink to this headline">¶</a></h2>
+<p>This example is located in the <strong>examples/flask/odm_1_1</strong> folder.</p>
+<p>This example shows how to access CUAHSI Observations Data Model (ODM) databases
+in Microsoft SQL Server.  The example uses the Little Bear River ODM 1.1
+example database from the HIS website at
+<a class="reference external" href="http://his.cuahsi.org/odmdatabases.html">http://his.cuahsi.org/odmdatabases.html</a>.</p>
+<p>Follow the steps below to run this example.</p>
+<ol class="arabic simple">
+<li>Install Microsoft SQL Server.  You can download the free version, SQL
+Express.</li>
+<li>Download the Little Bear River ODM 1.1 database from the HIS website.</li>
+<li>Attach the database to SQL Server.</li>
+<li>Grant a SQL Server account <strong>select</strong> privileges on the database.  WOFpy
+will use this account to connect to the database.</li>
+<li>Determine the database connection string. <strong>lbr_connection_string</strong> set to a SQLAlchemy-compatible
+database connection string for the Little Bear River database, e.g.,
+‘mssql+pyodbc://webservice:webservice&#64;localhost/LittleBear11?driver=SQL+Server+Native+Client+10.0’``</li>
+<li>In the <strong>examples/flask/odm_1_1</strong> folder, edit the value of the <strong>openPort</strong>
+variable in <strong>runserver_odm_1_1.py</strong> to match an open port on your computer,
+if necessary.  Then save and close the file.</li>
+<li>Open a command window in the <strong>examples/odm_1_1</strong> folder and enter:</li>
+</ol>
+<p>..code:: bash</p>
+<blockquote>
+<div>python runserver_odm11.py
+–config=lbr_config.cfg
+–connection=connection.file</div></blockquote>
+<ol class="arabic simple">
+<li>In your command window you should see a message indicating that the service
+is running along with instructions for accessing the service.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ODM1 SQL Server</a><ul>
+<li><a class="reference internal" href="#detailed-instructions">Detailed Instructions</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ODM1Services.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">WOFpy 2.3.0+38.gcb89f71 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011-2015, Texas Water Development Board, Espey Consultants, Inc., University of Texas at Austin, Regents of University of California.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.3.
+    </div>
+  </body>
+</html>

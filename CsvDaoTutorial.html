@@ -1,0 +1,617 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Creating a DAO for Comma Delimited (CSV) Files &#8212; WOFpy 2.3.0+38.gcb89f71 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Publishing your data with WOFpy" href="PublishingWithWOFpy.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="PublishingWithWOFpy.html" title="Publishing your data with WOFpy"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">WOFpy 2.3.0+38.gcb89f71 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="creating-a-dao-for-comma-delimited-csv-files">
+<span id="index-0"></span><h1>Creating a DAO for Comma Delimited (CSV) Files<a class="headerlink" href="#creating-a-dao-for-comma-delimited-csv-files" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial demonstrates how to build a DAO (Data Access Objects) for comma
+delimited (CSV) files, enabling WOFpy to publish data stored in CSV format.
+This tutorial starts with a look at the end result.  The tutorial then gives an
+overview of the solution before going into hands-on training in writing your
+own DAO.</p>
+<p>This tutorial requires WOFpy to be installed on your computer
+(<a class="reference external" href="https://github.com/swtools/WOFpy/">https://github.com/swtools/WOFpy/</a>).</p>
+<p>A Python code editor or IDE would be useful since you’ll be viewing Python
+files.  When the tutorial asks you to open a Python file, you should open the
+file for editing in your code editor.  Do not actually execute the code.  When
+it’s time to execute code, the tutorial will instruct you to run the
+appropriate command.</p>
+<p>The tutorial assumes you are familiar with Python and have read WOFpy
+documentation on its architecture including the function of DAOs.</p>
+</div>
+<div class="section" id="viewing-the-result">
+<h2>Viewing the Result<a class="headerlink" href="#viewing-the-result" title="Permalink to this headline">¶</a></h2>
+<p>Let’s view the end result to see what it is that you’re trying to achieve in
+this tutorial.  First let’s take a look at the data, which are contained in
+CSV files.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All tutorial files are located in the <strong>WOFpy/examples/flask/csv_tutorial</strong>
+folder.</p>
+</div>
+<ol class="arabic simple">
+<li>Open the <strong>solution</strong> folder.</li>
+<li>Open <strong>data.csv</strong> and <strong>sites.csv</strong>.</li>
+</ol>
+<p>These files contain data values and site descriptions, respectively.  The data
+values include daily average values for river stage (i.e., the height of the
+river) in feet and discharge (i.e., how much water is flowing in the river) in
+cubic feet per second. The data are for three sites in Texas along the Colorado
+River and belong to a fictitious organization called Texas River Monitoring,
+whose monitoring program ran from January 1, 2008, to April 30, 2008.  The data
+are further described in metadata.txt</p>
+<ol class="arabic simple" start="3">
+<li>Close <strong>data.csv</strong> and <strong>sites.csv</strong>.</li>
+</ol>
+<p>Now let’s view the data in WaterML by running our own WOFpy service application.</p>
+<ol class="arabic simple" start="4">
+<li>In the <strong>solution</strong> folder, open <strong>runserver_csv.py</strong>.</li>
+<li>If necessary, change the value of the <strong>openPort</strong> variable to an available
+port on your computer. (Hint: Try the next few steps. If you get an error
+about the port already being used, try another port.)</li>
+<li>Save and close <strong>runserver_csv.py</strong>.</li>
+<li>Open a command window to the <strong>solution</strong> folder.</li>
+<li>Enter this command: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">runserver_csv.py</span></code></li>
+</ol>
+<p>The <strong>runserver_csv.py</strong> file has a few lines of code to start the WOFpy
+service application using the CSV DAO for data access. You’ve now got a live
+WaterOneFlow service running on your computer!</p>
+<ol class="arabic simple" start="9">
+<li>Open a Web browser and navigate to <a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>.  If you used a
+different port, substitute it in place of 8080 in the URL.</li>
+</ol>
+<p>This page has links to WaterML outputs for some example queries.</p>
+<ol class="arabic simple" start="10">
+<li>Click on the first link that begins with <strong>GetValues</strong>.</li>
+</ol>
+<p>The XML response is WaterML with information about the queried site and
+variable, followed by the time series values of the variable.  The data values
+should match the values in your data.csv file.  Note the additional metadata
+returned in the WaterML beyond what is provided in the CSV files.  Since others
+don’t know the unique qualities of your data, this metadata is required for
+others to properly interpret your data.</p>
+<ol class="arabic simple" start="11">
+<li>In the command window, press <strong>CTRL+C</strong> to stop the service.</li>
+</ol>
+<p>Now that you’ve seen the result of WOFpy serving the data from CSV files, let’s
+look into the magic in the middle that enabled this result.</p>
+</div>
+<div class="section" id="how-it-works">
+<h2>How It Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>Here’s a colorful illustration showing how WOFpy and your DAO team up to
+deliver data to the user.</p>
+<div class="figure" id="id1">
+<img alt="_images/comic.PNG" src="_images/comic.PNG" />
+<p class="caption"><span class="caption-text">Figure 1. WOFpy and DAO work as a team.  1) The user asks WOFpy for data.
+2) WOFpy interprets the request as a set of required fundamental objects
+(sites, units of measure, etc.) and asks the DAO to supply those objects.
+3) The DAO uses relevant data from its database to create the requested
+objects.  4) The DAO delivers the objects to WOFpy.  5) WOFpy translates the
+objects into WaterML.  6) WOFpy delivers WaterML to the user.</span></p>
+</div>
+<p>The DAO really has it easy.  It just gives some simple objects to WOFpy when
+WOFpy asks for them, and then lets WOFpy handle creating WaterML from those
+objects while supporting both SOAP and REST endpoints.</p>
+<p>WOFpy expects two things from a DAO:</p>
+<ul class="simple">
+<li>The DAO has the same method signatures found in <strong>wof.dao.BaseDao</strong>.</li>
+<li>The DAO methods return objects or lists of objects found in <strong>wof.models</strong>.</li>
+</ul>
+<p>Let’s take a look at those core WOFpy files.</p>
+<ol class="arabic simple">
+<li>In the <strong>WOFpy/wof</strong> folder (where you downloaded WOFpy), open <strong>dao.py</strong>.</li>
+</ol>
+<p>This file has a single class, <strong>BaseDao</strong>, with definitions for all methods
+that WOFpy expects of a DAO.  For example, <strong>BaseDao.get_site_by_code</strong>
+includes a <strong>site_code</strong> parameter which should uniquely identify a site within
+your observation network, and the method should return an object representing
+that site.  In other words, it’s like WOFpy is saying, “Please give me a site
+object that matches this description.”  This is represented by the callout in
+panel 2 of the figure above.  Any time WOFpy needs data from your DAO, it will
+use one of these methods to ask for it.</p>
+<p>Notice that <strong>BaseDao</strong> raises <strong>NotImplementedError</strong> for all methods.  It’s a
+good idea to derive your DAO class from <strong>BaseDao</strong> because this error will
+remind you about any methods that you forgot to implement.</p>
+<p>If the callout in panel 2 represents methods from <strong>BaseDao</strong>, then the shapes
+in panel 4 represent the classes in <strong>models.py</strong>.  These are the objects
+returned by methods in <strong>BaseDao</strong>.  Let’s take a look at those classes.</p>
+<ol class="arabic simple" start="2">
+<li>Open <strong>models.py</strong>.</li>
+</ol>
+<p>The first few items are basically controlled vocabularies.  For example, if you
+need to describe the sample medium in which your measurements are taken, then
+you should consider using a term from <strong>SampleMediumTypes</strong>.  This helps data
+publishers use consistent terminology when describing their data, which in turn
+helps data consumers more easily understand the data.</p>
+<p>The remaining items are classes representing the building blocks of a fully
+described dataset.  For example, <strong>BaseVariable</strong> has properties describing a
+variable such as name, sample medium, and units of measure.  Notice that
+<strong>VariableUnits</strong> is a <strong>BaseUnits</strong> object.  Similarly, the <strong>BaseSeries</strong>
+class (which describes a time series) includes building blocks of <strong>BaseSite</strong>,
+<strong>BaseVariable</strong>, <strong>BaseMethod</strong>, and <strong>BaseSource</strong>.</p>
+<p>The classes in <strong>models.py</strong> are based primarily on entities in the CUAHSI
+<a class="reference external" href="http://his.cuahsi.org/odmdatabases.html">Observations Data Model (ODM)</a>.
+See the design specifications of ODM for an excellent review of those entities.
+Another great resource is the controlled vocabulary system on the CUAHSI-HIS
+website at <a class="reference external" href="http://his.cuahsi.org/mastercvreg/cv11.aspx">http://his.cuahsi.org/mastercvreg/cv11.aspx</a>. The controlled
+vocabularies provide suggested terms to use when describing your data.</p>
+<p>Some of the key objects in the conceptual model behind WOFpy and ODM are:</p>
+<ul class="simple">
+<li><strong>Site</strong> - The location of a time series.  Key properties include Name,
+Latitude, and Longitude.  Sites are usually associated with one or more time
+series variables.</li>
+<li><strong>Variable</strong> - The property represented by a time series, e.g.,
+precipitation.</li>
+<li><strong>Method</strong> - The method used to measure a variable.</li>
+<li><strong>Source</strong> - The organization responsible for collecting the data.</li>
+<li><strong>Series</strong> - A description of a time series, including site, variable,
+period of record, and number of values.</li>
+<li><strong>DataValue</strong> - A single time series value, including the value itself, the
+date and time at which it was measured, and the quality control level of the data.</li>
+</ul>
+<p>Now that you’ve seen these core components, let’s take a peek at how the CSV
+DAO implements them.</p>
+<ol class="arabic simple" start="3">
+<li>In the <strong>solution</strong> folder, open <strong>csv_model.py</strong>.</li>
+</ol>
+<p>This module imports <strong>wof.models</strong> and then defines classes that inherit from
+classes in <strong>wof.models</strong>.  Notice how the module defines a class such as
+<strong>Variable</strong> and specifies the values of some of <strong>BaseVariable’s</strong> properties.
+In this case, the purpose of <strong>csv_model</strong> is to fill out some of the properties
+that will always be the same for the data in our CSV files, while leaving the
+remaining properties to be filled out by the DAO.  For example, because all of
+our site locations are in Texas, we can hard code the <strong>State</strong> property of
+<strong>Site</strong>.  But since we have several site locations, we won’t hard code
+<strong>Latitude</strong> and <strong>Longitude</strong>.  This streamlines the programming for the DAO
+since it doesn’t have to worry about these hard-coded properties.  The DAO will
+set the remaining properties in response to which site WOFpy asks for at
+runtime.</p>
+<p>Notice that not all classes in <strong>wof.models</strong> are represented here.  Classes
+for which no properties can be hard coded and classes which do not apply to our
+dataset (such as measurement offset) can be left out.</p>
+<p>By the way, the use of your own ‘models’ module is optional. It was used in
+this CSV example because many properties for classes in <strong>wof.models</strong> could be
+specified at design time.  In cases where you are using an object relational
+mapper such as SQLAlchemy to connect to a database, your ‘models’ module would
+be a good place to put your data mappings (see the ODM example included with
+WOFpy).  But ultimately, WOFpy only sees your DAO, so it’s up to you to decide
+how many supporting classes, if any, you want to include in your solution.</p>
+<p>Now let’s look at the DAO itself.</p>
+<ol class="arabic simple" start="4">
+<li>In the <strong>solution</strong> folder, open <strong>csv_dao.py</strong>.</li>
+</ol>
+<p>The first thing we notice are several import statements.  These include
+utilities for working with time (timedelta, dateutil.parser), WOFpy (wof.dao,
+wof.models, csv_model), and CSV files (csv).  Then we get to the definition of
+CsvDao, which inherits from BaseDao.</p>
+<p>In the initializer for <strong>CsvDao</strong>, we take note of the CSV files storing the
+sites and data values that this DAO will be working with.  Then we create a
+dictionary to store objects representing the variables in our dataset, namely
+river stage and discharge.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In a real application you’d probably want to store these variable
+descriptions in a separate CSV file.  They are hard-coded in this tutorial
+to demonstrate the various options you have for building your DAO.</p>
+</div>
+<p>The remainder of the class includes methods defined by <strong>BaseDao</strong> and
+supporting methods.  For example, let’s examine <strong>get_site_by_code</strong>, whose
+purpose is to return a site object given the site’s identifier.  <strong>CsvDao</strong>
+implements this method by opening the sites CSV file, skipping the header,
+finding the row that matches the given <strong>site_code</strong>, creating a site object
+from that row, and then returning the site object.</p>
+<p>You can take a detailed look at <strong>CsvDao</strong> later.  At that time, some key
+points to note are:</p>
+<ul class="simple">
+<li>Be mindful of how datetimes are represented in your dataset.  WaterML
+datetimes use a format defined by the ISO 8601 standard including offset from
+Universal Time Coordinates (UTC).  Methods like <strong>CsvDao.parse_date_strings</strong>
+help the DAO to work with datetimes that are time zone aware.  Your DAO
+should return either time zone aware datetimes or strings formatted according
+to the ISO 8601 standard.</li>
+<li>Note how <strong>get_datavalues</strong> checks that the given <strong>site_code</strong> and
+<strong>var_code</strong> are valid before parsing the lengthy data values file.</li>
+<li>Since this dataset has no data qualifiers or offsets, the methods related to
+those items return empty lists.  Nice and easy.</li>
+</ul>
+<p>Finally, let’s see how WOFpy gets connected to CsvDao.</p>
+<ol class="arabic simple" start="5">
+<li>Open <strong>runserver_csv.py</strong>.</li>
+</ol>
+<p>This module is responsible for creating the Web application for the
+WaterOneFlow service.  The file <strong>csv_config.cfg</strong> includes some default
+parameters for the service.  The module creates the DAO and points it to the
+site and data values CSV files, and then it creates the WaterOneFlow
+application and supplies it with the DAO and the configuration file location.
+As long as <strong>CsvDao</strong> implements the methods in <strong>BaseDao</strong>, it should work
+fine with WOFpy.  When the application runs, it prints a brief message showing
+how to access the service.</p>
+<ol class="arabic simple" start="6">
+<li>Close all of the Python files that you have opened.</li>
+</ol>
+<p>Now that you’ve seen the big picture and the critical details, you may be ready
+to start writing your own DAO.  But for those with an insatiable desire for
+hands-on training, the next section walks you through the implementation of one
+method from <strong>BaseDao</strong>.</p>
+</div>
+<div class="section" id="creating-your-own-dao">
+<h2>Creating Your Own DAO<a class="headerlink" href="#creating-your-own-dao" title="Permalink to this headline">¶</a></h2>
+<p>For some hands-on training in building a DAO, let’s create a <strong>CsvDao</strong> that
+implements <strong>get_sites_by_codes</strong>.</p>
+<ol class="arabic simple">
+<li>Navigate to the <strong>tutorial</strong> folder.</li>
+</ol>
+<p>Here you find many of the same files as in the solution.  The DAO and model
+files are missing.  You will create those files (at least to support
+<strong>get_sites_by_codes</strong>) in this tutorial.</p>
+<ol class="arabic simple" start="2">
+<li>Create and open a file named <strong>csv_dao.py</strong>.</li>
+</ol>
+<p>We know we’ll be working with CSV files.  Luckily, Python includes a <strong>csv</strong>
+module for that purpose. We also know that our DAO needs to implement methods
+in <strong>BaseDao</strong>, so we’ll import <strong>BaseDao</strong> and inherit from it.</p>
+<ol class="arabic" start="3">
+<li><p class="first">Add the following import statements:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">from</span> <span class="nn">wof.dao</span> <span class="k">import</span> <span class="n">BaseDao</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Now we’ll create the DAO class definition.  We’ll call the class <strong>CsvDao</strong>,
+and it will inherit from <strong>BaseDao</strong>.  The class will include an initializer in
+which the path to the CSV file defining site locations is provided.  We’ll
+store that path as an attribute of the class.</p>
+<ol class="arabic" start="4">
+<li><p class="first">Create the DAO class definition and its initializer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CsvDao</span><span class="p">(</span><span class="n">BaseDao</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sites_file_path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sites_file_path</span> <span class="o">=</span> <span class="n">sites_file_path</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Let’s create some code to test our DAO.  Rather than having to start WOFpy just
+for testing, you should be able to execute the following code directly from
+your code editor.  (If not, then consider using an editor such as IDLE.)</p>
+<ol class="arabic" start="5">
+<li><p class="first">Add the following code to the bottom of the file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="n">current_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_folder</span><span class="p">,</span> <span class="s1">&#39;sites.csv&#39;</span><span class="p">)</span>
+
+    <span class="n">dao</span> <span class="o">=</span> <span class="n">CsvDao</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">sites</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="n">get_sites_by_codes</span><span class="p">([</span><span class="s1">&#39;Austin&#39;</span><span class="p">])</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">sites</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nb">print</span> <span class="n">s</span><span class="o">.</span><span class="n">SiteName</span>
+    <span class="nb">print</span> <span class="n">s</span><span class="o">.</span><span class="n">State</span>
+    <span class="nb">print</span> <span class="n">s</span><span class="o">.</span><span class="n">Latitude</span>
+    <span class="nb">print</span> <span class="n">s</span><span class="o">.</span><span class="n">Longitude</span>
+    <span class="nb">print</span> <span class="n">s</span><span class="o">.</span><span class="n">LatLongDatum</span><span class="o">.</span><span class="n">SRSName</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>The <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__':</span></code> block is executed when the script is run as
+a standalone program.  The first three lines within the block are for getting
+the location of sites.csv, which should be in the same folder as csv_dao.</p>
+<p>Then, the DAO is created by supplying the path to the CSV file.  Next, the DAO
+is asked to provide a list of site objects that match a list of site codes.  A
+single site code, Austin, is provided in the list.  Then, we make a reference
+to the first site object returned (there should be only one in this example).</p>
+<p>Finally, various properties of the site are printed to the console.</p>
+<ol class="arabic simple" start="6">
+<li>Save the file and run the code.</li>
+</ol>
+<p>When you run the code, you will see a <strong>NotImplementedError</strong>.  That’s because
+we haven’t written <strong>get_sites_by_codes</strong> yet!  But now we have a quick and
+easy way of testing our DAO.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When the interpreter didn’t see <strong>get_sites_by_codes</strong> in <strong>CsvDao</strong>, it
+passed the request to <strong>CsvDao’s</strong> base class, <strong>BaseDao</strong>.  It was
+<strong>BaseDao</strong> that returned the <strong>NotImplementedError</strong>.  Otherwise, an
+<strong>AttributeError</strong> would have been raised.  Seeing the
+<strong>NotImplementedError</strong> lets us know that we’re on the right track!</p>
+</div>
+<p>It’s time to implement <strong>get_sites_by_codes</strong>.  We can look at the code in
+<strong>BaseDao</strong> for the method definition.  Since we know the method should return
+a list of site objects, we’ll create a list and make sure we return the list at
+the end of the method.</p>
+<ol class="arabic" start="7">
+<li><p class="first">Add the following code to the CsvDao class after the __init__ method:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_sites_by_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site_codes_arr</span><span class="p">):</span>
+    <span class="n">sites</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="n">sites</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Save the file and run the code.</p>
+</li>
+</ol>
+<p>This time, we get an <strong>IndexError</strong>.  This is because there are no sites in our
+returned site list.  It is just an empty list.  We need to look through each
+row in the CSV file to find sites that match any of the site codes in the input
+<strong>site_codes_arr</strong> list.  The first column in the CSV file (with the header
+name ‘Site’) is the column representing site codes.  Once we’ve found a
+matching row, we need to create a site object from that row.  We’ll use a
+separate method called <strong>create_site_from_row</strong> for that, which we’ll add
+later.</p>
+<ol class="arabic" start="9">
+<li><p class="first">Add the following code after the creation of the empty sites list and before
+the sites list is returned by <strong>get_sites_by_codes</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sites_file_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">at_header</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">at_header</span><span class="p">:</span>
+            <span class="n">at_header</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">site_codes_arr</span><span class="p">:</span>
+            <span class="n">site</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_site_from_row</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+            <span class="n">sites</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>This code uses a <code class="docutils literal notranslate"><span class="pre">with</span></code> statement to ensure that the CSV file is properly
+closed when we’re finished with it.  It creates a CSV reader which loops
+through each row in the CSV file, splitting a given row into an array using
+commas as delimiters.  Because our CSV file includes a header row, the first
+row is skipped.  If the first column in a given row matches a site code from
+the input list of site codes, then we create a site object from that row and
+add it to the output site list.</p>
+<p>If you run the code now, you’ll get an <strong>AttributeError</strong> because
+<strong>create_site_from_row</strong> doesn’t exist.  Before we create that method, now is a
+good time to look at the0 <strong>BaseSite</strong> class from <strong>wof.models</strong>.  We can see
+that some properties such as <strong>State</strong> will be the same for all sites in our
+example. Therefore, let’s create our own <strong>Site</strong> class derived from
+<strong>BaseSite</strong>, in which we hard code some properties common to all sites.  We’ll
+do this in a separate file called csv_model.</p>
+<ol class="arabic" start="10">
+<li><p class="first">Create and open a file named <strong>csv_model.py</strong>.</p>
+</li>
+<li><p class="first">Add the following code to <strong>csv_model.py</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">wof.models</span> <span class="k">as</span> <span class="nn">wof_base</span>
+
+<span class="k">class</span> <span class="nc">Site</span><span class="p">(</span><span class="n">wof_base</span><span class="o">.</span><span class="n">BaseSite</span><span class="p">):</span>
+    <span class="n">LatLongDatum</span> <span class="o">=</span> <span class="n">wof_base</span><span class="o">.</span><span class="n">BaseSpatialReference</span><span class="p">()</span>
+    <span class="n">LatLongDatum</span><span class="o">.</span><span class="n">SRSID</span> <span class="o">=</span> <span class="mi">4269</span> <span class="c1"># EPSG code</span>
+    <span class="n">LatLongDatum</span><span class="o">.</span><span class="n">SRSName</span> <span class="o">=</span> <span class="s1">&#39;NAD83&#39;</span>
+    <span class="n">State</span> <span class="o">=</span> <span class="s1">&#39;Texas&#39;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>This code imports <strong>wof.models</strong> and defines a class named <strong>Site</strong> derived
+from <strong>wof.models.BaseSite</strong>.  The <strong>State</strong> property is hard coded to Texas.
+Because all sites use the same datum (NAD83) as indicated in metadata.txt, the
+<strong>LatLongDatum</strong> property is also hard coded.  Note that <strong>BaseSite</strong> defines
+the datum as a <strong>BaseSpatialReference</strong> object, so this object is created and a
+couple of its properties are set to represent the NAD83 datum.</p>
+<ol class="arabic" start="12">
+<li><p class="first">Save <strong>csv_model.py</strong>.</p>
+</li>
+<li><p class="first">At the top of <strong>csv_dao.py</strong>, add an import statement below the other
+import statements to include the <strong>csv_model</strong> module that you just
+created:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">csv_model</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add the following code to the <strong>CsvDao</strong> class to define the
+<strong>create_site_from_row</strong> method:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_site_from_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">csv_row_items</span><span class="p">):</span>
+    <span class="n">site</span> <span class="o">=</span> <span class="n">csv_model</span><span class="o">.</span><span class="n">Site</span><span class="p">()</span>
+    <span class="n">site</span><span class="o">.</span><span class="n">SiteCode</span> <span class="o">=</span> <span class="n">csv_row_items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">site</span><span class="o">.</span><span class="n">SiteName</span> <span class="o">=</span> <span class="n">csv_row_items</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">site</span><span class="o">.</span><span class="n">Latitude</span> <span class="o">=</span> <span class="n">csv_row_items</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">site</span><span class="o">.</span><span class="n">Longitude</span> <span class="o">=</span> <span class="n">csv_row_items</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">site</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>This method receives a list representing a row from a CSV file.  It creates the
+<strong>Site</strong> object defined in csv_model and then populates the remaining <strong>Site</strong>
+properties by using values from the row in the CSV file.  Then it returns the
+<strong>Site</strong> object.</p>
+<p>At this point, you are finished writing code for this tutorial.  For reference,
+you can find the code in <a class="reference internal" href="#completed-csv-dao-tutorial-code"><span class="std std-ref">Completed Tutorial Code</span></a>.</p>
+<ol class="arabic simple" start="15">
+<li>Save the file and run the code.</li>
+</ol>
+<p>Your console should now show you the site name and other properties of the
+site.  Hooray!  Now let’s make sure WOFpy likes your DAO.</p>
+<ol class="arabic simple" start="16">
+<li>In the <strong>tutorial</strong> folder, edit the <strong>openPort</strong> value in
+<strong>runserver_csv.py</strong> like you did earlier in the version in the
+<strong>solution</strong> folder if necessary.  Save and close the file.</li>
+<li>Open a command window to the <strong>tutorial</strong> folder.</li>
+<li>Enter this command: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">runserver_csv.py</span></code></li>
+<li>Open a Web browser and navigate to <a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>.  If you used a
+different port, substitute it in place of 8080 in the URL.</li>
+<li>Click on the second link, the one that reads
+<strong>GetSites?site=TxRivers:Austin</strong>.</li>
+</ol>
+<p>You should now be looking at WaterML representing the Austin site.  Yay!</p>
+<ol class="arabic simple" start="21">
+<li>Click <strong>Back</strong> in your browser.</li>
+<li>Click any of the other links.</li>
+</ol>
+<p>You should see <strong>NotImplementedError</strong> for the other links since you haven’t
+programmed those parts of your DAO.</p>
+<ol class="arabic simple" start="23">
+<li>In the command window, press <strong>CTRL+C</strong> to stop the service.</li>
+</ol>
+<p>Congratulations!  You have completed the tutorial and have learned the basics
+of how to create a DAO for WOFpy.  Please reference the files in the solution
+folder of this tutorial or the examples included with WOFpy to see how methods
+in the DAO are implemented for various dataset types.</p>
+</div>
+<div class="section" id="completed-tutorial-code">
+<span id="completed-csv-dao-tutorial-code"></span><h2>Completed Tutorial Code<a class="headerlink" href="#completed-tutorial-code" title="Permalink to this headline">¶</a></h2>
+<p>Below is the code for <strong>csv_dao.py</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">from</span> <span class="nn">wof.dao</span> <span class="k">import</span> <span class="n">BaseDao</span>
+<span class="kn">import</span> <span class="nn">csv_model</span>
+
+<span class="k">class</span> <span class="nc">CsvDao</span><span class="p">(</span><span class="n">BaseDao</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sites_file_path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sites_file_path</span> <span class="o">=</span> <span class="n">sites_file_path</span>
+
+    <span class="k">def</span> <span class="nf">create_site_from_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">csv_row_items</span><span class="p">):</span>
+        <span class="n">site</span> <span class="o">=</span> <span class="n">csv_model</span><span class="o">.</span><span class="n">Site</span><span class="p">()</span>
+        <span class="n">site</span><span class="o">.</span><span class="n">SiteCode</span> <span class="o">=</span> <span class="n">csv_row_items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">site</span><span class="o">.</span><span class="n">SiteName</span> <span class="o">=</span> <span class="n">csv_row_items</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">site</span><span class="o">.</span><span class="n">Latitude</span> <span class="o">=</span> <span class="n">csv_row_items</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">site</span><span class="o">.</span><span class="n">Longitude</span> <span class="o">=</span> <span class="n">csv_row_items</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">site</span>
+
+    <span class="k">def</span> <span class="nf">get_sites_by_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site_codes_arr</span><span class="p">):</span>
+        <span class="n">sites</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sites_file_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">at_header</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">at_header</span><span class="p">:</span>
+                    <span class="n">at_header</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">site_codes_arr</span><span class="p">:</span>
+                    <span class="n">site</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_site_from_row</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                    <span class="n">sites</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sites</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="n">current_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_folder</span><span class="p">,</span> <span class="s1">&#39;sites.csv&#39;</span><span class="p">)</span>
+
+    <span class="n">dao</span> <span class="o">=</span> <span class="n">CsvDao</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">sites</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="n">get_sites_by_codes</span><span class="p">([</span><span class="s1">&#39;Austin&#39;</span><span class="p">])</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">sites</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nb">print</span> <span class="n">s</span><span class="o">.</span><span class="n">SiteName</span>
+    <span class="nb">print</span> <span class="n">s</span><span class="o">.</span><span class="n">State</span>
+    <span class="nb">print</span> <span class="n">s</span><span class="o">.</span><span class="n">Latitude</span>
+    <span class="nb">print</span> <span class="n">s</span><span class="o">.</span><span class="n">Longitude</span>
+    <span class="nb">print</span> <span class="n">s</span><span class="o">.</span><span class="n">LatLongDatum</span><span class="o">.</span><span class="n">SRSName</span>
+</pre></div>
+</div>
+<p>Below is the code for <strong>csv_model.py</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">wof.models</span> <span class="k">as</span> <span class="nn">wof_base</span>
+
+<span class="k">class</span> <span class="nc">Site</span><span class="p">(</span><span class="n">wof_base</span><span class="o">.</span><span class="n">BaseSite</span><span class="p">):</span>
+    <span class="n">LatLongDatum</span> <span class="o">=</span> <span class="n">wof_base</span><span class="o">.</span><span class="n">BaseSpatialReference</span><span class="p">()</span>
+    <span class="n">LatLongDatum</span><span class="o">.</span><span class="n">SRSID</span> <span class="o">=</span> <span class="mi">4269</span> <span class="c1"># EPSG code</span>
+    <span class="n">LatLongDatum</span><span class="o">.</span><span class="n">SRSName</span> <span class="o">=</span> <span class="s1">&#39;NAD83&#39;</span>
+    <span class="n">State</span> <span class="o">=</span> <span class="s1">&#39;Texas&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Creating a DAO for Comma Delimited (CSV) Files</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#viewing-the-result">Viewing the Result</a></li>
+<li><a class="reference internal" href="#how-it-works">How It Works</a></li>
+<li><a class="reference internal" href="#creating-your-own-dao">Creating Your Own DAO</a></li>
+<li><a class="reference internal" href="#completed-tutorial-code">Completed Tutorial Code</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="PublishingWithWOFpy.html"
+                        title="previous chapter">Publishing your data with WOFpy</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/CsvDaoTutorial.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="PublishingWithWOFpy.html" title="Publishing your data with WOFpy"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">WOFpy 2.3.0+38.gcb89f71 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011-2015, Texas Water Development Board, Espey Consultants, Inc., University of Texas at Austin, Regents of University of California.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.3.
+    </div>
+  </body>
+</html>

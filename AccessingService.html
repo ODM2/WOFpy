@@ -1,0 +1,205 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Accessing WOFpy REST Web Services for WaterML 1 and WaterML2 &#8212; WOFpy 2.3.0+38.gcb89f71 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">WOFpy 2.3.0+38.gcb89f71 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p>The services will be run. At start, a set of HTML pages with examples is generated.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/</li>
+<li><a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/rest_1_0/</li>
+<li><a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/rest_1_1/</li>
+<li><a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/rest_2/</li>
+<li><a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/soap/wateroneflow/.wsdl</li>
+<li><a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/soap/wateroneflow_1_1/.wsdl</li>
+</ul>
+<p>The services can  be found:
+* <a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/rest/1_0
+* <a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/rest/1_1
+* <a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/rest/2
+* <a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/soap/wateroneflow
+* <a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/soap/wateroneflow_1_1</p>
+<div class="section" id="accessing-wofpy-rest-web-services-for-waterml-1-and-waterml2">
+<h1>Accessing WOFpy REST Web Services for WaterML 1 and WaterML2<a class="headerlink" href="#accessing-wofpy-rest-web-services-for-waterml-1-and-waterml2" title="Permalink to this headline">¶</a></h1>
+<p>Running the examples is a great way to learn the REST syntax for accessing data
+with WOFpy.  The examples create a web page with sample URIs illustrating
+the required syntax.  You can click the URIs in your browser to see the
+results.  The syntax is also described below.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/rest_1_0/</li>
+<li><a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/rest_1_1/</li>
+</ul>
+<div class="section" id="getting-site-locations">
+<h2>Getting Site Locations<a class="headerlink" href="#getting-site-locations" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>GetSites</strong> - Returns locations of all sites</li>
+<li><strong>GetSites?site=network:site_code</strong> - Returns location of site with given
+site code in given network</li>
+</ul>
+</div>
+<div class="section" id="discovering-what-is-measured-at-a-site">
+<h2>Discovering What Is Measured at a Site<a class="headerlink" href="#discovering-what-is-measured-at-a-site" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>GetSites?site=network:site_code</strong> - Returns location of given site and
+summary of all time series available at the site</li>
+</ul>
+</div>
+<div class="section" id="getting-information-about-variables">
+<h2>Getting Information about Variables<a class="headerlink" href="#getting-information-about-variables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>GetVariableInfo</strong> - Returns descriptions of all variables</li>
+<li><strong>GetVariableInfo?variable=vocabulary:variable_code</strong> - Returns description
+of variable with given variable code within the given vocabulary</li>
+</ul>
+</div>
+<div class="section" id="downloading-time-series-values">
+<h2>Downloading Time Series Values<a class="headerlink" href="#downloading-time-series-values" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>GetValues?location=network:site_code&amp;variable=vocabulary:variable_code</strong> -
+Returns all data at the given site for the given variable</li>
+<li><strong>GetValues?location=network:site_code&amp;variable=vocabulary:variable_code&amp;startDate=YYYY-MM-DDThh:mm&amp;endDate=YYYY-MM-DDThh:mm</strong> -
+Returns data at the given site for the given variable intersecting the given
+time period</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The time format is <a class="reference external" href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO time</a>.  You can leave out the
+time component and just write YYYY-MM-DD.  You can specify time zone by
+appending the offset from Universal Time Coordinates (UTC) in hours to the
+end of the date string, or by appending Z to indicate UTC.  For example,
+to specify April 5, 2011, 5:00 PM in US Central Standard Time:
+<code class="docutils literal notranslate"><span class="pre">2011-04-05T05:00-06</span></code></p>
+<p class="last">See <a class="reference external" href="https://en.wikipedia.org/wiki/ISO_8601">Wikipedia</a> for more examples.</p>
+</div>
+</div>
+</div>
+<div class="section" id="waterml-2">
+<h1>WaterML 2<a class="headerlink" href="#waterml-2" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{entwork}/rest/2/</li>
+<li><strong>GetValues?format=wml2&amp;location=network:site_code&amp;variable=vocabulary:variable_code&amp;startDate=YYYY-MM-DDThh:mm&amp;endDate=YYYY-MM-DDThh:mm</strong> -
+Returns data at the given site for the given variable intersecting the given
+time period in WaterML 2.0 format.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">WaterML 2.0 format is only available for GetValues requests.</p>
+</div>
+</div>
+<div class="section" id="accessing-wofpy-soap-web-services">
+<h1>Accessing WOFpy SOAP Web Services<a class="headerlink" href="#accessing-wofpy-soap-web-services" title="Permalink to this headline">¶</a></h1>
+<p>The SOAP endpoint follows the WaterOneFlow standard, whose method signatures
+and WaterML responses are described on the HIS website at
+<a class="reference external" href="http://his.cuahsi.org/wofws.html">http://his.cuahsi.org/wofws.html</a>.</p>
+<p>WSDL Endpoints:
+* <a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/soap/cuahsi_1_0/.wsdl
+* <a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/soap/cuahsi_1_`/.wsdl
+These correspond to SOAP endpoints:
+* <a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/soap/cuahsi_1_0
+* <a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>/{network}/soap/cuahsi_1_1</p>
+<p>One of the easiest ways to test the SOAP endpoint is to use the free soapUI
+program.  To test with soapUI:</p>
+<ol class="arabic simple">
+<li>Install soapUI.</li>
+<li>Run WOFpy, perhaps using  the csv in the <a class="reference internal" href="GettingStarted.html#examples"><span class="std std-ref">examples</span></a>.</li>
+<li>Start soapUI.</li>
+<li>In soapUI, click <strong>File</strong>, and then click <strong>Import Project</strong>.</li>
+<li>Go to testwofpy-1-1-soapui-project.xml</li>
+<li>Expand the example request for <strong>GetSites</strong> and double-click
+<strong>GetAllSites</strong> to open that request.</li>
+<li>At the top of the window, there is a menu with url  like <strong>http://127.0.0.1:8080/txrivers/soap/cuahsi_1_1/</strong>
+click, select the url for the example, or if you have a new service, <strong>[add new endpoint]</strong></li>
+<li>Expand <strong>WOF11 Soap TestSuite</strong>, Double Click <strong>Run Test Case</strong></li>
+<li>In window, select URL icon. Run</li>
+<li>Click the play button to issue the request.  A new window should open with
+the SOAP response showing information about the site.</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Accessing WOFpy REST Web Services for WaterML 1 and WaterML2</a><ul>
+<li><a class="reference internal" href="#getting-site-locations">Getting Site Locations</a></li>
+<li><a class="reference internal" href="#discovering-what-is-measured-at-a-site">Discovering What Is Measured at a Site</a></li>
+<li><a class="reference internal" href="#getting-information-about-variables">Getting Information about Variables</a></li>
+<li><a class="reference internal" href="#downloading-time-series-values">Downloading Time Series Values</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#waterml-2">WaterML 2</a></li>
+<li><a class="reference internal" href="#accessing-wofpy-soap-web-services">Accessing WOFpy SOAP Web Services</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/AccessingService.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">WOFpy 2.3.0+38.gcb89f71 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011-2015, Texas Water Development Board, Espey Consultants, Inc., University of Texas at Austin, Regents of University of California.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.3.
+    </div>
+  </body>
+</html>
