@@ -12,12 +12,12 @@ What is WOFpy?
 
 **WOFpy** stands for **Water One Flow in Python**.  It is designed to produce WaterML 
 web services from a variety of back-end database formats, e.g. SQLite, 
-Microsoft SQL server, PostgreSQL, etc.  WOFPy is being maintained to expose ODM2 datastores as
+Microsoft SQL server, PostgreSQL, etc.  WOFPy is being maintained to expose `ODM 2 <http://odm2.org>`_ datastores as
 CUAHSI WaterOneFlow services as is a key part of the Python services stack for Critical Zone Observatories.
 It has been enhanced to be fully WaterOneFlow 1.1, and WaterML 1.1 compliant, and be registered with with CUAHSI
 HIS Central, and  utilized CUAHSI Hydrodesktop.
 
-Original Development was supported by the **Texas Water Development Board** as part of**'Water Data for Texas'**
+Original Development was supported by the **Texas Water Development Board** as part of **Water Data for Texas**
 - a unified hydrological information system that shares environmental data for the state of Texas.
 
 How do I get started?
@@ -28,7 +28,7 @@ Once downloaded, you can follow the following steps to get **WOFpy and its depen
 and to start and access the **example web services** that come pre-packaged with WOFpy.
  
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    
    GettingStarted   
 
