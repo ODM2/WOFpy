@@ -41,8 +41,6 @@ the pantry (i.e. **provider's database**).  However before the produce can be co
 into a palatable form (i.e. **WaterML**).  This requires a restaurant (i.e. **WOFpy**) with a smart catering staff 
 (i.e. **WOFpy components**) to select, cook and serve (i.e. **extract, transform and load**) the dishes.
    
-.. image:: /graphics/ARestaurantAnalogyForWOFpy_55.png
-
 The components within WOFpy are further explained in the following links:
 
 .. toctree::
